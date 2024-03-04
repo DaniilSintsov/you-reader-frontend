@@ -1,0 +1,23 @@
+.header {
+	flex: 0 0 var(--header-height) !important;
+	height: var(--header-height) !important;
+	position: relative;
+	background-color: var(--white) !important;
+	box-shadow: none !important;
+	border-bottom: 1px solid var(--border);
+}
+
+.header > div {
+	height: 100%;
+}
+
+.header {
+	color: #000 !important;
+}
+
+.logoWrapper {
+	display: flex;
+	align-items: center;
+	flex: 0 0 50px;
+	height: 100%;
+}

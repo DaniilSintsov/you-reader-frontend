@@ -1,0 +1,14 @@
+.pdfDocument {
+    display: flex;
+    justify-content: center;
+}
+
+.pdfPage {
+    background-color: transparent !important;
+}
+
+.outlineWrapper {
+    width: 400px;
+    height: 400px;
+    overflow: auto;
+}
