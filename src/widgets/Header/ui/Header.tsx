@@ -4,7 +4,6 @@ import styles from './Header.module.css';
 import AppBar from '@mui/material/AppBar';
 import ToolBar from '@mui/material/Toolbar';
 import Box from '@mui/material/Box';
-import Link from 'next/link';
 import Image from 'next/image';
 import { useState } from 'react';
 import IconButton from '@mui/material/IconButton';
@@ -12,6 +11,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import Drawer from '@mui/material/Drawer';
+import Navlink from '@/src/shared/Navlink';
 
 export default function Header() {
 	const [mobileOpen, setMobileOpen] = useState(false);
@@ -29,8 +29,8 @@ export default function Header() {
 			sx={{ textAlign: 'center' }}>
 			<List>
 				<ListItem>
-					<Link href="/">Мои книги</Link>
-					<Link href="/">Папки</Link>
+					<Navlink href="/">Мои книги</Navlink>
+					<Navlink href="/">Папки</Navlink>
 				</ListItem>
 			</List>
 		</Box>
@@ -46,6 +46,7 @@ export default function Header() {
 				<ToolBar
 					sx={{
 						height: '100%',
+						columnGap: { xs: 0, md: 3 },
 						minHeight: { xs: 'unset', md: 'unset' },
 						justifyContent: { xs: 'space-between', md: 'flex-start' },
 					}}
@@ -59,8 +60,8 @@ export default function Header() {
 						/>
 					</div>
 					<Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-						<Link href="/">Мои книги</Link>
-						<Link href="/">Папки</Link>
+						<Navlink href="/">Мои книги</Navlink>
+						<Navlink href="/">Папки</Navlink>
 					</Box>
 					<IconButton
 						color="inherit"

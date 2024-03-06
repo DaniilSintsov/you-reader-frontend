@@ -1,0 +1,24 @@
+.navlink {
+	display: inline-block;
+	padding: 5px;
+	text-transform: uppercase;
+	text-decoration: none;
+	font-weight: 500;
+	font-size: 18px;
+	color: var(--black);
+	transition: 0.3s;
+	letter-spacing: 0.05em;
+}
+
+@media (hover: hover) {
+	.navlink:active,
+	.navlink:hover {
+		color: var(--blue);
+	}
+}
+
+@media (hover: none) {
+	.navlink:active {
+		color: var(--blue);
+	}
+}
