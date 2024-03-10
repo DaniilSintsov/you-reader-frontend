@@ -1,4 +1,5 @@
 export interface INavlinkProps {
 	children: React.ReactNode;
-    href: string;
+	href: string;
+	fullwidth?: boolean;
 }

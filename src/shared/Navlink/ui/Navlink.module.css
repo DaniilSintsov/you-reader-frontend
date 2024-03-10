@@ -6,7 +6,7 @@
 	font-size: 16px;
 	color: var(--black);
 	transition: 0.3s;
-	letter-spacing: 0.05em;
+	letter-spacing: 0.03em;
 }
 
 @media (hover: hover) {
@@ -19,5 +19,11 @@
 @media (hover: none) {
 	.navlink:active {
 		color: var(--blue);
+	}
+}
+
+@media (max-width: 899px) {
+	.navlink {
+		padding: 7px;
 	}
 }

@@ -12,6 +12,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import Drawer from '@mui/material/Drawer';
 import Navlink from '@/src/shared/Navlink';
 import Link from 'next/link';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
 
 export default function Header() {
 	const [mobileOpen, setMobileOpen] = useState(false);
@@ -28,7 +30,8 @@ export default function Header() {
 			className={styles.logoContainer}>
 			<div className={styles.logo}>
 				<Image
-					src="/img/logo.png"
+					src="/img/logo.svg"
+					priority={true}
 					width={50}
 					height={50}
 					alt="youreader"
@@ -60,6 +63,37 @@ export default function Header() {
 					</ToolBar>
 				</Container>
 			</div>
+			<Container sx={{ borderBottom: '1px solid var(--border)' }}>
+				<List
+					sx={{
+						display: 'flex',
+						flexDirection: 'column',
+						rowGap: 1,
+						paddingTop: 1,
+						paddingBottom: 1,
+					}}>
+					<ListItem disablePadding>
+						<Navlink
+							fullwidth
+							href="/">
+							Мои книги
+						</Navlink>
+					</ListItem>
+				</List>
+			</Container>
+			<Container sx={{ borderBottom: '1px solid var(--border)' }}>
+				<Box
+					sx={{
+						paddingTop: 1,
+						paddingBottom: 1,
+					}}>
+					<Navlink
+						fullwidth
+						href="/">
+						Войти
+					</Navlink>
+				</Box>
+			</Container>
 		</div>
 	);
 
@@ -82,6 +116,9 @@ export default function Header() {
 					<Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
 						<Navlink href="/">Мои книги</Navlink>
 					</Box>
+					<Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+						<Navlink href="/">Войти</Navlink>
+					</Box>
 					<IconButton
 						color="inherit"
 						aria-label="open drawer"
@@ -93,12 +130,11 @@ export default function Header() {
 			</Container>
 			<nav>
 				<Drawer
-					container={window.document.body}
 					variant="temporary"
 					open={mobileOpen}
 					onClose={handleDrawerToggle}
 					ModalProps={{
-						keepMounted: true, // Better open performance on mobile.
+						keepMounted: true,
 					}}
 					sx={{
 						display: { xs: 'block', md: 'none' },
