@@ -1,7 +1,4 @@
 import type { Metadata } from 'next';
-import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
-import { ThemeProvider } from '@mui/material/styles';
-import theme from '@/theme';
 import 'modern-normalize';
 
 export const metadata: Metadata = {
@@ -14,15 +11,5 @@ export default function ReaderLayout({
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
-	return (
-		<html lang="ru">
-			<body>
-				<AppRouterCacheProvider>
-					<ThemeProvider theme={theme}>
-						<div id="app">{children}</div>
-					</ThemeProvider>
-				</AppRouterCacheProvider>
-			</body>
-		</html>
-	);
+	return <div>{children}</div>;
 }

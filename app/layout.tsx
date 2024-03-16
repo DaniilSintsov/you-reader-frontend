@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
 import { ThemeProvider } from '@mui/material/styles';
-import Header from '@/src/widgets/Header';
 import theme from '@/theme';
 import 'modern-normalize';
 
@@ -20,12 +19,7 @@ export default function RootLayout({
 		<html lang="ru">
 			<body>
 				<AppRouterCacheProvider>
-					<ThemeProvider theme={theme}>
-						<div id="app">
-							<Header />
-							{children}
-						</div>
-					</ThemeProvider>
+					<ThemeProvider theme={theme}>{children}</ThemeProvider>
 				</AppRouterCacheProvider>
 			</body>
 		</html>
