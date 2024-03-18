@@ -16,10 +16,10 @@
 }
 
 .logoContainer {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    text-decoration: none;
+	display: flex;
+	gap: 10px;
+	align-items: center;
+	text-decoration: none;
 }
 
 .logoContainer .logo {
@@ -30,7 +30,17 @@
 }
 
 .logoContainer .text {
-    font-size: 18px;
-    font-weight: 500;
-    color: var(--black);
+	font-size: 18px;
+	font-weight: 500;
+	color: var(--black);
+}
+
+.menuLink {
+	display: inline-block;
+	width: 100%;
+	text-decoration: none;
+	font-weight: 500;
+	font-size: 16px;
+	color: var(--black);
+	letter-spacing: 0.03em;
 }

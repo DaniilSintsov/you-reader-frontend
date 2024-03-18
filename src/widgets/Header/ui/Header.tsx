@@ -14,6 +14,7 @@ import Navlink from '@/src/shared/Navlink';
 import Link from 'next/link';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
 
 export default function Header() {
 	const [mobileOpen, setMobileOpen] = useState(false);
@@ -63,37 +64,56 @@ export default function Header() {
 					</ToolBar>
 				</Container>
 			</div>
-			<Container sx={{ borderBottom: '1px solid var(--border)' }}>
+			<Box sx={{ borderBottom: '1px solid var(--border)' }}>
 				<List
 					sx={{
 						display: 'flex',
 						flexDirection: 'column',
-						rowGap: 1,
 						paddingTop: 1,
 						paddingBottom: 1,
 					}}>
 					<ListItem disablePadding>
-						<Navlink
-							fullwidth
+						<Link
+							className={styles.menuLink}
 							href="/">
-							Мои книги
-						</Navlink>
+							<ListItemButton
+								sx={{
+									paddingLeft: { xs: 2, sm: 3 },
+									paddingRight: { xs: 2, sm: 3 },
+									paddingTop: 1.5,
+									paddingBottom: 1.5,
+								}}>
+								Мои книги
+							</ListItemButton>
+						</Link>
 					</ListItem>
 				</List>
-			</Container>
-			<Container sx={{ borderBottom: '1px solid var(--border)' }}>
-				<Box
+			</Box>
+			<Box sx={{ borderBottom: '1px solid var(--border)' }}>
+				<List
 					sx={{
+						display: 'flex',
+						flexDirection: 'column',
 						paddingTop: 1,
 						paddingBottom: 1,
 					}}>
-					<Navlink
-						fullwidth
-						href="/">
-						Войти
-					</Navlink>
-				</Box>
-			</Container>
+					<ListItem disablePadding>
+						<Link
+							className={styles.menuLink}
+							href="/">
+							<ListItemButton
+								sx={{
+									paddingLeft: { xs: 2, sm: 3 },
+									paddingRight: { xs: 2, sm: 3 },
+									paddingTop: 1.5,
+									paddingBottom: 1.5,
+								}}>
+								Войти
+							</ListItemButton>
+						</Link>
+					</ListItem>
+				</List>
+			</Box>
 		</div>
 	);
 
