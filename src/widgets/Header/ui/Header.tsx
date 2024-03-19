@@ -13,8 +13,7 @@ import Drawer from '@mui/material/Drawer';
 import Navlink from '@/src/shared/Navlink';
 import Link from 'next/link';
 import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
+import MenuLink from '@/src/shared/MenuLink';
 
 export default function Header() {
 	const [mobileOpen, setMobileOpen] = useState(false);
@@ -72,21 +71,7 @@ export default function Header() {
 						paddingTop: 1,
 						paddingBottom: 1,
 					}}>
-					<ListItem disablePadding>
-						<Link
-							className={styles.menuLink}
-							href="/">
-							<ListItemButton
-								sx={{
-									paddingLeft: { xs: 2, sm: 3 },
-									paddingRight: { xs: 2, sm: 3 },
-									paddingTop: 1.5,
-									paddingBottom: 1.5,
-								}}>
-								Мои книги
-							</ListItemButton>
-						</Link>
-					</ListItem>
+					<MenuLink href="/">Мои книги</MenuLink>
 				</List>
 			</Box>
 			<Box sx={{ borderBottom: '1px solid var(--border)' }}>
@@ -97,21 +82,7 @@ export default function Header() {
 						paddingTop: 1,
 						paddingBottom: 1,
 					}}>
-					<ListItem disablePadding>
-						<Link
-							className={styles.menuLink}
-							href="/">
-							<ListItemButton
-								sx={{
-									paddingLeft: { xs: 2, sm: 3 },
-									paddingRight: { xs: 2, sm: 3 },
-									paddingTop: 1.5,
-									paddingBottom: 1.5,
-								}}>
-								Войти
-							</ListItemButton>
-						</Link>
-					</ListItem>
+					<MenuLink href="/">Войти</MenuLink>
 				</List>
 			</Box>
 		</div>
@@ -133,9 +104,7 @@ export default function Header() {
 					}}
 					disableGutters>
 					<Logo />
-					<Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-						<Navlink href="/">Мои книги</Navlink>
-					</Box>
+					<Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}></Box>
 					<Box sx={{ display: { xs: 'none', md: 'flex' } }}>
 						<Navlink href="/">Войти</Navlink>
 					</Box>
