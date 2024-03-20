@@ -2,6 +2,7 @@
 
 :root {
 	--font-size: 18px;
+	--menu-link-fs: 16px;
 	--header-height: 60px;
 
 	--blue: #3456f3;
@@ -24,7 +25,7 @@ body {
 	height: 100%;
 	background-color: var(--beige);
 	min-width: 320px;
-    line-height: 1.2;
+	line-height: 1.2;
 	font-family: 'Roboto', sans-serif;
 	font-weight: 400;
 	font-size: var(--font-size);
