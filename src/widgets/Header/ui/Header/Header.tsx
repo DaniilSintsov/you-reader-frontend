@@ -4,45 +4,47 @@ import styles from './Header.module.css';
 import AppBar from '@mui/material/AppBar';
 import ToolBar from '@mui/material/Toolbar';
 import Box from '@mui/material/Box';
-import Image from 'next/image';
-import { useState } from 'react';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import Drawer from '@mui/material/Drawer';
-import Navlink from '@/src/shared/Navlink';
-import Link from 'next/link';
+import Navlink from '@/src/shared/ui/Navlink/Navlink';
 import List from '@mui/material/List';
-import MenuLink from '@/src/shared/MenuLink';
+import MenuLink from '@/src/shared/ui/MenuLink/MenuLink';
+import Logo from '../Logo/Logo';
+import { routes } from '@/src/shared/constants/routes';
+import { useMobileMenu } from '@/src/shared/lib/hooks/useMobileMenu';
 
 export default function Header() {
-	const [mobileOpen, setMobileOpen] = useState(false);
+	const { openMenu, setOpenMenu } = useMobileMenu();
 
 	const handleDrawerToggle = () => {
-		setMobileOpen(prevState => !prevState);
+		setOpenMenu(prevState => !prevState);
 	};
 
 	const drawerWidth = 320;
 
-	const Logo = () => (
-		<Link
-			href="/"
-			className={styles.logoContainer}>
-			<div className={styles.logo}>
-				<Image
-					src="/img/logo.svg"
-					priority={true}
-					width={50}
-					height={50}
-					alt="youreader"
-				/>
-			</div>
-			<p className={styles.text}>YouReader</p>
-		</Link>
-	);
-
 	const drawer = (
-		<div>
+		<div
+			onClick={(e: React.MouseEvent<HTMLDivElement>) => {
+				const elem = e.target as HTMLElement;
+				if (elem.tagName === 'A') {
+					setOpenMenu(false);
+					return;
+				}
+				let parent = elem.parentElement;
+				const verifiedParentsCount = 3; // quantity of verified parents to avoid infinite loop
+				for (let i = 0; i < verifiedParentsCount; i++) {
+					if (parent?.tagName === 'A') {
+						setOpenMenu(false);
+						break;
+					}
+					if (!parent?.parentElement) {
+						break;
+					}
+					parent = parent?.parentElement;
+				}
+			}}>
 			<div className={styles.header}>
 				<Container sx={{ height: '100%' }}>
 					<ToolBar
@@ -71,7 +73,13 @@ export default function Header() {
 						paddingTop: 1,
 						paddingBottom: 1,
 					}}>
-					<MenuLink href="/">Мои книги</MenuLink>
+					{routes.map(route => (
+						<MenuLink
+							key={route.path}
+							href={route.path}>
+							{route.text}
+						</MenuLink>
+					))}
 				</List>
 			</Box>
 			<Box sx={{ borderBottom: '1px solid var(--border)' }}>
@@ -100,11 +108,10 @@ export default function Header() {
 						height: '100%',
 						columnGap: { xs: 0, md: 4 },
 						minHeight: { xs: 'unset', md: 'unset' },
-						justifyContent: { xs: 'space-between', md: 'flex-start' },
+						justifyContent: 'space-between',
 					}}
 					disableGutters>
 					<Logo />
-					<Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}></Box>
 					<Box sx={{ display: { xs: 'none', md: 'flex' } }}>
 						<Navlink href="/">Войти</Navlink>
 					</Box>
@@ -120,7 +127,7 @@ export default function Header() {
 			<nav>
 				<Drawer
 					variant="temporary"
-					open={mobileOpen}
+					open={openMenu}
 					onClose={handleDrawerToggle}
 					ModalProps={{
 						keepMounted: true,

@@ -14,23 +14,3 @@
 .header {
 	color: #000 !important;
 }
-
-.logoContainer {
-	display: flex;
-	gap: 10px;
-	align-items: center;
-	text-decoration: none;
-}
-
-.logoContainer .logo {
-	display: flex;
-	align-items: center;
-	flex: 0 0 50px;
-	height: 100%;
-}
-
-.logoContainer .text {
-	font-size: 18px;
-	font-weight: 500;
-	color: var(--black);
-}
