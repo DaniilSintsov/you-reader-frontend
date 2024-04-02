@@ -1,7 +1,16 @@
-export default function NotFound() {
+import NotFound from '@/src/pages/NotFound';
+import { MobileMenuProvider } from '@/src/shared/lib/hooks/useMobileMenu';
+import Header from '@/src/widgets/Header';
+
+export default function NotFoundPage() {
 	return (
-		<div>
-			<h1>404</h1>
-		</div>
+		<MobileMenuProvider>
+			<div id="app">
+				<Header />
+				<main>
+					<NotFound />
+				</main>
+			</div>
+		</MobileMenuProvider>
 	);
 }

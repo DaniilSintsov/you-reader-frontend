@@ -11,7 +11,7 @@ export default function CommonLayout({ children }: PropsWithChildren) {
 				<Header />
 				<main>
 					<Container
-						sx={{ paddingTop: 4 }}
+						sx={{ paddingTop: 4, paddingBottom: 4 }}
 						maxWidth="lg">
 						<Box sx={{ display: { xs: 'block', md: 'none' } }}>{children}</Box>
 						<Grid
@@ -20,12 +20,12 @@ export default function CommonLayout({ children }: PropsWithChildren) {
 							spacing={2}>
 							<Grid
 								item
-								xs={4}>
+								xs={3}>
 								<Sidebar />
 							</Grid>
 							<Grid
 								item
-								xs={8}>
+								xs={9}>
 								{children}
 							</Grid>
 						</Grid>

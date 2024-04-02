@@ -4,7 +4,6 @@ import { useState } from 'react';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
 import 'react-pdf/dist/Page/TextLayer.css';
 import styles from './Reader.module.css';
-import { PDFDocumentProxy } from 'pdfjs-dist';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
@@ -31,7 +30,7 @@ export default function Reader() {
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);
 
-	function onDocumentLoadSuccess(pdf: PDFDocumentProxy): void {
+	function onDocumentLoadSuccess(pdf: { numPages: number }): void {
 		setNumPages(pdf.numPages);
 	}
 
