@@ -1,14 +1,11 @@
 import Link from 'next/link';
 import { INavlinkProps } from './Navlink.types';
-import styles from './Navlink.module.css';
+import { Button } from '@mui/material';
 
-export default function Navlink({ children, href, fullwidth = false }: INavlinkProps) {
+export default function Navlink({ children, href }: INavlinkProps) {
 	return (
-		<Link
-			style={{ width: fullwidth ? '100%' : 'auto' }}
-			className={styles.navlink}
-			href={href}>
-			{children}
+		<Link href={href}>
+			<Button component="div">{children}</Button>
 		</Link>
 	);
 }

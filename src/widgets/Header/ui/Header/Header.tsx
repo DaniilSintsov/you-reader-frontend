@@ -113,7 +113,7 @@ export default function Header() {
 					disableGutters>
 					<Logo />
 					<Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-						<Navlink href="/">Войти</Navlink>
+						<Navlink href="/login">Войти</Navlink>
 					</Box>
 					<IconButton
 						color="inherit"
