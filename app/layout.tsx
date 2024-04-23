@@ -5,6 +5,8 @@ import { ThemeProvider } from '@mui/material/styles';
 import theme from '@/src/shared/config/mui/theme';
 import 'modern-normalize';
 import { PropsWithChildren } from 'react';
+import { ProfileProvider } from '@/src/shared/lib/hooks/useStoreProfile';
+import { MobileMenuProvider } from '@/src/shared/lib/hooks/useMobileMenu';
 
 export const metadata: Metadata = {
 	title: 'YouReader - твоя любимая PDF-читалка',
@@ -16,7 +18,11 @@ export default function RootLayout({ children }: PropsWithChildren) {
 		<html lang="ru">
 			<body>
 				<AppRouterCacheProvider>
-					<ThemeProvider theme={theme}>{children}</ThemeProvider>
+					<ThemeProvider theme={theme}>
+						<MobileMenuProvider>
+							<ProfileProvider>{children}</ProfileProvider>
+						</MobileMenuProvider>
+					</ThemeProvider>
 				</AppRouterCacheProvider>
 			</body>
 		</html>

@@ -1,5 +1,4 @@
-import { Box, Button, Container } from '@mui/material';
-import styles from './NotFound.module.css';
+import { Box, Button, Container, Typography } from '@mui/material';
 import Link from 'next/link';
 
 export default function NotFound() {
@@ -15,7 +14,15 @@ export default function NotFound() {
 					flexDirection: 'column',
 					gap: 2,
 				}}>
-				<h1 className={styles.title}>Страница не найдена</h1>
+				<Typography
+					variant="h5"
+					component="h1"
+					sx={{
+						textAlign: 'center',
+						fontWeight: 500,
+					}}>
+					Страница не найдена
+				</Typography>
 				<Link href="/">
 					<Button component="div">Вернуться на главную</Button>
 				</Link>

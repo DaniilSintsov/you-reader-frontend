@@ -14,6 +14,14 @@ import MenuLink from '@/src/shared/ui/MenuLink/MenuLink';
 import Logo from '../Logo/Logo';
 import { routes } from '@/src/shared/constants/routes';
 import { useMobileMenu } from '@/src/shared/lib/hooks/useMobileMenu';
+import { useProfile } from '@/src/shared/lib/hooks/useStoreProfile';
+import { AccountCircle } from '@mui/icons-material';
+import { Menu, MenuItem, Typography } from '@mui/material';
+import { useState } from 'react';
+import AuthService from '@/src/shared/lib/services/auth.service';
+import { LocalStorageService } from '@/src/shared/lib/services/localStorage.service';
+import { IAuthResponse } from '@/src/shared/models/authResponse.model';
+import UserService from '@/src/shared/lib/services/user.service';
 
 export default function Header() {
 	const { openMenu, setOpenMenu } = useMobileMenu();
@@ -24,18 +32,20 @@ export default function Header() {
 
 	const drawerWidth = 320;
 
+	const { isAuth, setIsAuth, profile, setProfile } = useProfile();
+
 	const drawer = (
 		<div
 			onClick={(e: React.MouseEvent<HTMLDivElement>) => {
 				const elem = e.target as HTMLElement;
-				if (elem.tagName === 'A') {
+				if (elem.tagName === 'A' || elem.role === 'button') {
 					setOpenMenu(false);
 					return;
 				}
 				let parent = elem.parentElement;
 				const verifiedParentsCount = 3; // quantity of verified parents to avoid infinite loop
 				for (let i = 0; i < verifiedParentsCount; i++) {
-					if (parent?.tagName === 'A') {
+					if (parent?.tagName === 'A' || parent?.tagName === 'BUTTON') {
 						setOpenMenu(false);
 						break;
 					}
@@ -90,11 +100,63 @@ export default function Header() {
 						paddingTop: 1,
 						paddingBottom: 1,
 					}}>
-					<MenuLink href="/">Войти</MenuLink>
+					{isAuth ? (
+						<>
+							<Box
+								sx={{
+									display: 'flex',
+									alignItems: 'center',
+									gap: 1,
+									paddingLeft: { xs: 2, sm: 3 },
+									paddingRight: { xs: 2, sm: 3 },
+								}}>
+								<AccountCircle />
+								<Typography
+									sx={{
+										fontWeight: 500,
+										textOverflow: 'ellipsis',
+										overflow: 'hidden',
+										whiteSpace: 'nowrap',
+									}}
+									variant="subtitle1">
+									{profile.name}
+								</Typography>
+							</Box>
+							<MenuLink
+								onClick={() => {
+									onLogout();
+								}}>
+								Выйти
+							</MenuLink>
+						</>
+					) : (
+						<MenuLink href="/login?mode=login">Войти</MenuLink>
+					)}
 				</List>
 			</Box>
 		</div>
 	);
+
+	const [popupMenuEl, setPopupMenuEl] = useState<null | HTMLElement>(null);
+
+	const handlePopupMenu = (event: React.MouseEvent<HTMLElement>) => {
+		setPopupMenuEl(event.currentTarget);
+	};
+
+	const onLogout = async () => {
+		try {
+			await AuthService.logout();
+			LocalStorageService.remove('token');
+			setIsAuth(false);
+			setProfile({} as IAuthResponse);
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
+	const onClosePopupMenu = () => {
+		setPopupMenuEl(null);
+	};
 
 	return (
 		<AppBar
@@ -112,8 +174,66 @@ export default function Header() {
 					}}
 					disableGutters>
 					<Logo />
+
 					<Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-						<Navlink href="/login">Войти</Navlink>
+						{isAuth ? (
+							<div>
+								<IconButton
+									size="large"
+									aria-label="account of current user"
+									aria-controls="menu-appbar"
+									aria-haspopup="true"
+									onClick={handlePopupMenu}
+									color="inherit">
+									<AccountCircle />
+								</IconButton>
+								<Menu
+									id="menu-appbar"
+									anchorEl={popupMenuEl}
+									anchorOrigin={{
+										vertical: 'bottom',
+										horizontal: 'right',
+									}}
+									keepMounted
+									transformOrigin={{
+										vertical: 'top',
+										horizontal: 'right',
+									}}
+									open={!!popupMenuEl}
+									onClose={onClosePopupMenu}>
+									<Typography
+										sx={{
+											fontWeight: 500,
+											width: '200px',
+											textOverflow: 'ellipsis',
+											overflow: 'hidden',
+											whiteSpace: 'nowrap',
+											padding: 2,
+											paddingTop: 0,
+											paddingBottom: 1,
+											borderBottom: '1px solid var(--border)',
+										}}
+										variant="subtitle1">
+										{profile.name}
+									</Typography>
+									<MenuLink
+										sx={{
+											paddingLeft: { xs: 2, sm: 2 },
+											paddingRight: { xs: 2, sm: 2 },
+											paddingTop: 1,
+											paddingBottom: 1,
+										}}
+										onClick={() => {
+											onLogout();
+											onClosePopupMenu();
+										}}>
+										Выйти
+									</MenuLink>
+								</Menu>
+							</div>
+						) : (
+							<Navlink href="/login?mode=login">Войти</Navlink>
+						)}
 					</Box>
 					<IconButton
 						color="inherit"
