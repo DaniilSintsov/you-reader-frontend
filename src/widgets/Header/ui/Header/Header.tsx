@@ -107,6 +107,7 @@ export default function Header() {
 									display: 'flex',
 									alignItems: 'center',
 									gap: 1,
+									paddingBottom: 1,
 									paddingLeft: { xs: 2, sm: 3 },
 									paddingRight: { xs: 2, sm: 3 },
 								}}>
