@@ -2,7 +2,6 @@
 
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import {
-	Alert,
 	Button,
 	FormControl,
 	FormHelperText,
@@ -10,7 +9,6 @@ import {
 	InputAdornment,
 	InputLabel,
 	OutlinedInput,
-	Snackbar,
 	TextField,
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
@@ -24,6 +22,7 @@ import { LocalStorageService } from '@/src/shared/lib/services/localStorage.serv
 import { useProfile } from '@/src/shared/lib/hooks/useStoreProfile';
 import { ClientError } from 'graphql-request';
 import { useRouter } from 'next/navigation';
+import { useAlert } from '@/src/shared/lib/hooks/useAlert';
 
 export default function Form({ mode }: IFormProps) {
 	const [showPassword, setShowPassword] = useState(false);
@@ -78,17 +77,9 @@ export default function Form({ mode }: IFormProps) {
 	});
 
 	const { setIsAuth, setProfile } = useProfile();
-	const [alert, setAlert] = useState<{
-		open: boolean;
-		message: string;
-		severity: 'error' | 'success';
-	}>({ open: false, message: '', severity: 'error' });
+	const { setAlert } = useAlert();
 
 	const router = useRouter();
-
-	const alertCloseHandle = () => {
-		setAlert({ open: false, message: '', severity: 'error' });
-	};
 
 	const onSubmit: SubmitHandler<IFormInputs> = async (data: FieldValues) => {
 		if (mode === 'register') {
@@ -154,7 +145,6 @@ export default function Form({ mode }: IFormProps) {
 						severity: 'error',
 					});
 				} else {
-					console.dir(error);
 					setAlert({
 						open: true,
 						message: 'Ошибка при авторизации. Попробуйте позже',
@@ -167,101 +157,87 @@ export default function Form({ mode }: IFormProps) {
 	};
 
 	return (
-		<>
-			<form
-				noValidate
-				className={styles.form}
-				onSubmit={handleSubmit(onSubmit)}>
-				{mode === 'register' && (
-					<Controller
-						name="username"
-						control={control}
-						render={({ field }) => (
-							<TextField
-								label="Имя"
-								id="username"
-								type="text"
-								{...field}
-								error={!!errors.username}
-								helperText={errors.username?.message}
-								sx={{ width: '100%' }}
-							/>
-						)}
-					/>
-				)}
+		<form
+			noValidate
+			className={styles.form}
+			onSubmit={handleSubmit(onSubmit)}>
+			{mode === 'register' && (
 				<Controller
-					name="email"
+					name="username"
 					control={control}
 					render={({ field }) => (
 						<TextField
-							label="Email"
-							id="email"
-							type="email"
+							label="Имя"
+							id="username"
+							type="text"
 							{...field}
-							error={!!errors.email}
-							helperText={errors.email?.message}
+							error={!!errors.username}
+							helperText={errors.username?.message}
 							sx={{ width: '100%' }}
 						/>
 					)}
 				/>
-				<Controller
-					name="password"
-					control={control}
-					render={({ field }) => (
-						<FormControl
-							sx={{ width: '100%' }}
-							variant="outlined">
-							<InputLabel
-								error={!!errors.password}
-								htmlFor="password">
-								Пароль
-							</InputLabel>
-							<OutlinedInput
-								id="password"
-								error={!!errors.password}
-								{...field}
-								type={showPassword ? 'text' : 'password'}
-								endAdornment={
-									<InputAdornment position="end">
-										<IconButton
-											aria-label="toggle password visibility"
-											onClick={handleClickShowPassword}
-											onMouseDown={handleMouseDownPassword}
-											edge="end">
-											{showPassword ? <VisibilityOff /> : <Visibility />}
-										</IconButton>
-									</InputAdornment>
-								}
-								label="Пароль"
-							/>
-							<FormHelperText error={!!errors.password}>
-								{errors.password?.message}
-							</FormHelperText>
-						</FormControl>
-					)}
-				/>
-				<Button
-					size="large"
-					variant="contained"
-					type="submit"
-					sx={{
-						width: '100%',
-					}}>
-					{mode === 'register' ? 'Зарегистрироваться' : 'Войти'}
-				</Button>
-			</form>
-			<Snackbar
-				open={alert.open}
-				autoHideDuration={3000}
-				onClose={alertCloseHandle}
-				anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
-				<Alert
-					variant="filled"
-					onClose={alertCloseHandle}
-					severity={alert.severity}>
-					{alert.message}
-				</Alert>
-			</Snackbar>
-		</>
+			)}
+			<Controller
+				name="email"
+				control={control}
+				render={({ field }) => (
+					<TextField
+						label="Email"
+						id="email"
+						type="email"
+						{...field}
+						error={!!errors.email}
+						helperText={errors.email?.message}
+						sx={{ width: '100%' }}
+					/>
+				)}
+			/>
+			<Controller
+				name="password"
+				control={control}
+				render={({ field }) => (
+					<FormControl
+						sx={{ width: '100%' }}
+						variant="outlined">
+						<InputLabel
+							error={!!errors.password}
+							htmlFor="password">
+							Пароль
+						</InputLabel>
+						<OutlinedInput
+							id="password"
+							error={!!errors.password}
+							{...field}
+							type={showPassword ? 'text' : 'password'}
+							endAdornment={
+								<InputAdornment position="end">
+									<IconButton
+										aria-label="toggle password visibility"
+										onClick={handleClickShowPassword}
+										onMouseDown={handleMouseDownPassword}
+										edge="end">
+										{showPassword ? <VisibilityOff /> : <Visibility />}
+									</IconButton>
+								</InputAdornment>
+							}
+							label="Пароль"
+						/>
+						<FormHelperText error={!!errors.password}>
+							{errors.password?.message}
+						</FormHelperText>
+					</FormControl>
+				)}
+			/>
+			<Button
+				size="large"
+				variant="contained"
+				type="submit"
+				sx={{
+					width: '100%',
+				}}>
+				{mode === 'register' ? 'Зарегистрироваться' : 'Войти'}
+			</Button>
+		</form>
 	);
 }

@@ -14,7 +14,6 @@ export default class UserService {
 					}
 				}
 			`,
-			withAuth: true,
 		})
 			.then((res: unknown) => (res as { getUser: IAuthResponse }).getUser)
 			.catch(error => {

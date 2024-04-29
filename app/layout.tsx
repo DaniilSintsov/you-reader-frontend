@@ -7,6 +7,7 @@ import 'modern-normalize';
 import { PropsWithChildren } from 'react';
 import { ProfileProvider } from '@/src/shared/lib/hooks/useStoreProfile';
 import { MobileMenuProvider } from '@/src/shared/lib/hooks/useMobileMenu';
+import { AlertProvider } from '@/src/shared/lib/hooks/useAlert';
 
 export const metadata: Metadata = {
 	title: 'YouReader - твоя любимая PDF-читалка',
@@ -20,7 +21,9 @@ export default function RootLayout({ children }: PropsWithChildren) {
 				<AppRouterCacheProvider>
 					<ThemeProvider theme={theme}>
 						<MobileMenuProvider>
-							<ProfileProvider>{children}</ProfileProvider>
+							<AlertProvider>
+								<ProfileProvider>{children}</ProfileProvider>
+							</AlertProvider>
 						</MobileMenuProvider>
 					</ThemeProvider>
 				</AppRouterCacheProvider>
