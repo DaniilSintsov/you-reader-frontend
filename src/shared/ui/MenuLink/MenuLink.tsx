@@ -3,9 +3,16 @@ import styles from './MenuLink.module.css';
 import Link from 'next/link';
 import { IMenuLinkProps } from './MenuLink.types';
 
-export default function MenuLink({ href, children, sx, onClick }: IMenuLinkProps) {
+export default function MenuLink({
+	href,
+	children,
+	sx,
+	onClick,
+	disabled = false,
+}: IMenuLinkProps) {
 	const LinkContent = (
 		<ListItemButton
+			disabled={disabled}
 			onClick={onClick}
 			sx={{
 				paddingLeft: { xs: 2, sm: 3 },

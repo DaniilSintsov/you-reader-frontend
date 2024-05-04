@@ -16,12 +16,11 @@ import { routes } from '@/src/shared/constants/routes';
 import { useMobileMenu } from '@/src/shared/lib/hooks/useMobileMenu';
 import { useProfile } from '@/src/shared/lib/hooks/useStoreProfile';
 import { AccountCircle } from '@mui/icons-material';
-import { Menu, MenuItem, Typography } from '@mui/material';
+import { Menu, Typography } from '@mui/material';
 import { useState } from 'react';
 import AuthService from '@/src/shared/lib/services/auth.service';
 import { LocalStorageService } from '@/src/shared/lib/services/localStorage.service';
 import { IAuthResponse } from '@/src/shared/models/authResponse.model';
-import UserService from '@/src/shared/lib/services/user.service';
 
 export default function Header() {
 	const { openMenu, setOpenMenu } = useMobileMenu();
@@ -93,6 +92,17 @@ export default function Header() {
 				</List>
 			</Box>
 			<Box sx={{ borderBottom: '1px solid var(--border)' }}>
+				<List
+					sx={{
+						display: 'flex',
+						flexDirection: 'column',
+						paddingTop: 1,
+						paddingBottom: 1,
+					}}>
+					<MenuLink href="/upload-file">Загрузить книгу</MenuLink>
+				</List>
+			</Box>
+			<Box>
 				<List
 					sx={{
 						display: 'flex',

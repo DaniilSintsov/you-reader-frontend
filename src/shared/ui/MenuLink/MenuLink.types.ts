@@ -5,4 +5,5 @@ export interface IMenuLinkProps {
 	children: React.ReactNode;
 	sx?: SxProps;
 	onClick?: (e: React.MouseEvent) => void;
+	disabled?: boolean;
 }

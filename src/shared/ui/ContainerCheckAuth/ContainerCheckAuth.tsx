@@ -38,7 +38,7 @@ export default function ContainerCheckAuth({
 			</Container>
 			<Snackbar
 				open={alert.open}
-				autoHideDuration={3000}
+				autoHideDuration={1000}
 				onClose={clearAlert}
 				anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
 				<Alert

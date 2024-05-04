@@ -1,6 +1,7 @@
 import { AxiosProgressEvent, AxiosResponse } from 'axios';
 import { authenticatedRequest } from '../../config/graphql/client';
 import { IBook } from '../../models/book.model';
+import { gql } from 'graphql-request';
 
 export class BookService {
 	static async uploadFile(
@@ -34,5 +35,83 @@ export class BookService {
 		} catch (error) {
 			throw error;
 		}
+	}
+
+	static async deleteFile(bookId: string): Promise<IBook> {
+		return await authenticatedRequest({
+			query: gql`
+				mutation deleteFile($bookId: String!) {
+					deleteFile(bookId: $bookId) {
+						_id
+					}
+				}
+			`,
+			variables: { bookId },
+		})
+			.then((res: unknown) => (res as { deleteFile: IBook }).deleteFile)
+			.catch(error => {
+				throw error;
+			});
+	}
+
+	static async getAllBooks(offset?: number, limit?: number): Promise<IBook[]> {
+		return await authenticatedRequest({
+			query: gql`
+				query getAllBooks($offset: Int, $limit: Int) {
+					getAllBooks(offset: $offset, limit: $limit) {
+						_id
+						title
+						author
+						cover
+						isFavorite
+					}
+				}
+			`,
+			variables: { offset, limit },
+		})
+			.then((res: unknown) => (res as { getAllBooks: IBook[] }).getAllBooks)
+			.catch(error => {
+				throw error;
+			});
+	}
+
+	static async getAllFavoriteBooks(offset?: number, limit?: number): Promise<IBook[]> {
+		return await authenticatedRequest({
+			query: gql`
+				query getAllFavoriteBooks($offset: Int, $limit: Int) {
+					getAllFavoriteBooks(offset: $offset, limit: $limit) {
+						_id
+						title
+						author
+						cover
+					}
+				}
+			`,
+			variables: { offset, limit },
+		})
+			.then((res: unknown) => (res as { getAllFavoriteBooks: IBook[] }).getAllFavoriteBooks)
+			.catch(error => {
+				throw error;
+			});
+	}
+
+	static async setIsFavorite(bookId: string, isFavorite: boolean): Promise<boolean> {
+		return await authenticatedRequest({
+			query: gql`
+				mutation setIsFavorite($bookId: String!, $isFavorite: Boolean!) {
+					setIsFavorite(bookId: $bookId, isFavorite: $isFavorite) {
+						isFavorite
+					}
+				}
+			`,
+			variables: { bookId, isFavorite },
+		})
+			.then(
+				(res: unknown) =>
+					(res as { setIsFavorite: IBook }).setIsFavorite.isFavorite as boolean,
+			)
+			.catch(error => {
+				throw error;
+			});
 	}
 }

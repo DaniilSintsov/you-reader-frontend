@@ -1,4 +1,5 @@
 'use client';
+
 import useFetcher from '@/src/shared/lib/hooks/useFetcher';
 import { BookService } from '@/src/shared/lib/services/book.service';
 import { IBook } from '@/src/shared/models/book.model';
@@ -6,12 +7,12 @@ import BookCard from '@/src/widgets/BookCard';
 import { Box, CircularProgress, Grid, Typography } from '@mui/material';
 import { useEffect } from 'react';
 
-export default function Home() {
+export default function Favorites() {
 	const {
 		data: books,
 		isLoading,
 		execute,
-	} = useFetcher(BookService.getAllBooks, { defaultData: [] });
+	} = useFetcher(BookService.getAllFavoriteBooks, { defaultData: [] });
 
 	useEffect(() => {
 		execute();
@@ -32,6 +33,7 @@ export default function Home() {
 							{books.map((book: IBook) => (
 								<BookCard
 									executeGetBooks={execute}
+									inFavorites
 									book={book}
 									key={book._id}
 								/>
@@ -46,7 +48,7 @@ export default function Home() {
 								padding: 1,
 							}}
 							variant="h6">
-							Книги не найдены
+							В избранном нет книг
 						</Typography>
 					)}
 				</>

@@ -24,7 +24,7 @@ export default function NotFound() {
 					Страница не найдена
 				</Typography>
 				<Link href="/">
-					<Button component="div">Вернуться на главную</Button>
+					<Button component="div">Вернуться к книгам</Button>
 				</Link>
 			</Box>
 		</Container>

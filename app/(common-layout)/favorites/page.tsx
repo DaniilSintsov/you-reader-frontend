@@ -1,3 +1,5 @@
-export default function FavoritesPage() {
-	return <div>favorites</div>;
+import Favorites from '@/src/pages/Favorites';
+
+export default async function FavoritesPage() {
+	return <Favorites />;
 }

@@ -41,7 +41,7 @@ class TokenHandler {
 
 		if (
 			result instanceof ClientError ||
-			(result.data.errors.length &&
+			(result?.data?.errors.length &&
 				result.data.errors[0].extensions?.originalError?.statusCode === 401)
 		) {
 			try {

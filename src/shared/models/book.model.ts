@@ -3,8 +3,8 @@ export interface IBook {
 	title: string;
 	author?: string;
 	cover: string;
-	file: string;
-	isFavorite: boolean;
-	pagesCount: number;
-	currentPage: number;
+	file?: string;
+	isFavorite?: boolean;
+	pagesCount?: number;
+	currentPage?: number;
 }

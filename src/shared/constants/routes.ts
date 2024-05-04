@@ -1,4 +1,4 @@
 export const routes: { path: string; text: string }[] = [
-	{ path: '/', text: 'Главная' },
+	{ path: '/', text: 'Все книги' },
 	{ path: 'favorites', text: 'Избранное' },
 ];
