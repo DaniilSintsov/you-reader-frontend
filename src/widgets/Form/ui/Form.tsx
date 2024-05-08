@@ -97,7 +97,7 @@ export default function Form({ mode }: IFormProps) {
 					message: 'Регистрация прошла успешно',
 					severity: 'success',
 				});
-				router.push('/');
+				router.replace('/');
 			} catch (error: unknown) {
 				if (
 					error instanceof ClientError &&
@@ -131,7 +131,7 @@ export default function Form({ mode }: IFormProps) {
 					message: 'Авторизация прошла успешно',
 					severity: 'success',
 				});
-				router.push('/');
+				router.replace('/');
 			} catch (error: unknown) {
 				if (
 					error instanceof ClientError &&

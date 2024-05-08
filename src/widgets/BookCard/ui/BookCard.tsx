@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { IBookCardProps } from './BookCard.types';
 import { Bookmark, BookmarkBorder, MoreVert } from '@mui/icons-material';
 import {
@@ -19,7 +19,13 @@ import useFetcher from '@/src/shared/lib/hooks/useFetcher';
 import { BookService } from '@/src/shared/lib/services/book.service';
 import { useAlert } from '@/src/shared/lib/hooks/useAlert';
 
-export default function BookCard({ book, inFavorites = false, executeGetBooks }: IBookCardProps) {
+export default function BookCard({
+	book,
+	inFavorites = false,
+	executeGetBooks,
+	setBooks,
+	executeArgs,
+}: IBookCardProps) {
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const open = Boolean(anchorEl);
 
@@ -52,7 +58,7 @@ export default function BookCard({ book, inFavorites = false, executeGetBooks }:
 	const favoritesButtonHandler = async () => {
 		if (inFavorites) {
 			await setIsFavoriteExecute([book._id, false]);
-			executeGetBooks();
+			executeGetBooks(executeArgs).then(data => setBooks(data));
 		} else {
 			setIsFavoriteExecute([book._id, !isFavorite]);
 		}
@@ -61,7 +67,7 @@ export default function BookCard({ book, inFavorites = false, executeGetBooks }:
 	const deleteButtonHandler = async () => {
 		deleteFileExecute([book._id])
 			.then(() => {
-				executeGetBooks();
+				executeGetBooks(executeArgs).then(data => setBooks(data));
 				setAlert({ open: true, message: 'Книга успешно удалена', severity: 'success' });
 			})
 			.catch(() => {

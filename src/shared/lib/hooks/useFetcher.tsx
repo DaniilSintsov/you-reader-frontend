@@ -21,12 +21,14 @@ export default function useFetcher(func: (...args: any) => Promise<any>, options
 		try {
 			const res = await func(...args);
 			setData(res);
+			return res;
 		} catch (error) {
 			setError(error);
+			throw error;
 		} finally {
 			setIsLoading(false);
 		}
 	};
 
-	return { data, error, isLoading, args: options.args, execute };
+	return { data, error, isLoading, execute };
 }

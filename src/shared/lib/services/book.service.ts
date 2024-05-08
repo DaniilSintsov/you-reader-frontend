@@ -2,6 +2,7 @@ import { AxiosProgressEvent, AxiosResponse } from 'axios';
 import { authenticatedRequest } from '../../config/graphql/client';
 import { IBook } from '../../models/book.model';
 import { gql } from 'graphql-request';
+import { IWithTotalCount } from '../../types/commonTypes';
 
 export class BookService {
 	static async uploadFile(
@@ -54,42 +55,57 @@ export class BookService {
 			});
 	}
 
-	static async getAllBooks(offset?: number, limit?: number): Promise<IBook[]> {
+	static async getAllBooks({
+		offset,
+		limit,
+	}: Record<string, number | undefined>): Promise<IWithTotalCount<IBook[]>> {
 		return await authenticatedRequest({
 			query: gql`
 				query getAllBooks($offset: Int, $limit: Int) {
 					getAllBooks(offset: $offset, limit: $limit) {
-						_id
-						title
-						author
-						cover
-						isFavorite
+						totalCount
+						data {
+							_id
+							title
+							author
+							cover
+							isFavorite
+						}
 					}
 				}
 			`,
 			variables: { offset, limit },
 		})
-			.then((res: unknown) => (res as { getAllBooks: IBook[] }).getAllBooks)
+			.then((res: unknown) => (res as { getAllBooks: IWithTotalCount<IBook[]> }).getAllBooks)
 			.catch(error => {
 				throw error;
 			});
 	}
 
-	static async getAllFavoriteBooks(offset?: number, limit?: number): Promise<IBook[]> {
+	static async getAllFavoriteBooks({
+		offset,
+		limit,
+	}: Record<string, number | undefined>): Promise<IWithTotalCount<IBook[]>> {
 		return await authenticatedRequest({
 			query: gql`
 				query getAllFavoriteBooks($offset: Int, $limit: Int) {
 					getAllFavoriteBooks(offset: $offset, limit: $limit) {
-						_id
-						title
-						author
-						cover
+						totalCount
+						data {
+							_id
+							title
+							author
+							cover
+						}
 					}
 				}
 			`,
 			variables: { offset, limit },
 		})
-			.then((res: unknown) => (res as { getAllFavoriteBooks: IBook[] }).getAllFavoriteBooks)
+			.then(
+				(res: unknown) =>
+					(res as { getAllFavoriteBooks: IWithTotalCount<IBook[]> }).getAllFavoriteBooks,
+			)
 			.catch(error => {
 				throw error;
 			});

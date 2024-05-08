@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 
 export const useDeviceSize = (breakpoint: number) => {
-	const [width, setWidth] = useState(0);
-	const [height, setHeight] = useState(0);
-	const [isMobile, setIsMobile] = useState<null | boolean>(null);
+	const [width, setWidth] = useState(window.innerWidth);
+	const [height, setHeight] = useState(window.innerHeight);
+	const [isMobile, setIsMobile] = useState(window.innerWidth < breakpoint);
 
 	useEffect(() => {
 		const handleWindowResize = () => {

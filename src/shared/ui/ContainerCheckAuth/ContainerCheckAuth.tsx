@@ -19,22 +19,7 @@ export default function ContainerCheckAuth({
 			<Container
 				sx={{ paddingTop: 4, paddingBottom: 4, ...sx }}
 				maxWidth="lg">
-				{isAuth ? (
-					children
-				) : (
-					<>
-						<Box sx={{ display: 'flex', justifyContent: 'center' }}>
-							<Typography
-								variant="h5"
-								component="h1"
-								sx={{ textAlign: 'center' }}>
-								<Link href="/login?mode=login">Войдите</Link> или{' '}
-								<Link href="/login?mode=register">зарегистрируйтесь</Link>, чтобы
-								пользоваться приложением
-							</Typography>
-						</Box>
-					</>
-				)}
+				{isAuth ? children : <NonAuthContent />}
 			</Container>
 			<Snackbar
 				open={alert.open}
@@ -51,3 +36,18 @@ export default function ContainerCheckAuth({
 		</>
 	);
 }
+
+const NonAuthContent = () => {
+	return (
+		<Box sx={{ display: 'flex', justifyContent: 'center' }}>
+			<Typography
+				variant="h5"
+				component="h1"
+				sx={{ textAlign: 'center' }}>
+				<Link href="/login?mode=login">Войдите</Link> или{' '}
+				<Link href="/login?mode=register">зарегистрируйтесь</Link>, чтобы пользоваться
+				приложением
+			</Typography>
+		</Box>
+	);
+};
