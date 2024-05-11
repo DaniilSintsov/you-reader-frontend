@@ -12,20 +12,11 @@ export const client = new GraphQLClient(`${process.env.NEXT_PUBLIC_API_URL}/grap
 });
 
 class TokenHandler {
-	private static async makeReq(
-		requestFunc: () => Promise<any>,
-	): Promise<any | ClientError | void> {
+	private static async makeReq(requestFunc: () => Promise<any>): Promise<any | Error> {
 		try {
 			return await requestFunc();
 		} catch (error) {
-			if (
-				error instanceof ClientError &&
-				error.response.errors?.length &&
-				error.response.errors[0].extensions?.originalError?.statusCode === 401
-			) {
-				return error;
-			}
-			return;
+			return error;
 		}
 	}
 
@@ -35,12 +26,10 @@ class TokenHandler {
 	) {
 		const result = await TokenHandler.makeReq(requestFunc);
 
-		if (!result) {
-			throw new Error('Unauthorized');
-		}
-
 		if (
-			result instanceof ClientError ||
+			(result instanceof ClientError &&
+				result?.response?.errors?.length &&
+				result.response.errors[0].extensions?.originalError?.statusCode === 401) ||
 			(result?.data?.errors.length &&
 				result.data.errors[0].extensions?.originalError?.statusCode === 401)
 		) {
@@ -51,6 +40,8 @@ class TokenHandler {
 			} catch (error) {
 				throw error;
 			}
+		} else if (result instanceof Error) {
+			throw result;
 		}
 
 		return result;

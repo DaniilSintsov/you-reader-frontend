@@ -4,6 +4,7 @@
 	--font-size: 18px;
 	--menu-link-fz: 16px;
 	--header-height: 60px;
+	--bottom-panel-height: 50px;
 	--border-radius: 5px;
 
 	--blue: #3456f3;
@@ -31,17 +32,33 @@ body {
 	font-size: var(--font-size);
 }
 
+#reader,
 #app {
 	min-height: 100%;
 	display: flex;
+	position: relative;
 	flex-direction: column;
 	overflow: hidden;
 }
 
-#app > main {
-	flex: 1 1 auto;
+main {
+	position: relative;
 }
 
+#app > main {
+	flex: 1 1 auto;
+	min-height: 100%;
+}
+
+#reader > main {
+	flex: 1 1 auto;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	margin-top: var(--header-height);
+}
+
+#reader > *,
 #app > * {
 	min-width: 0;
 }

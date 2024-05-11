@@ -33,121 +33,6 @@ export default function Header() {
 
 	const { isAuth, setIsAuth, profile, setProfile } = useProfile();
 
-	const drawer = (
-		<div
-			onClick={(e: React.MouseEvent<HTMLDivElement>) => {
-				const elem = e.target as HTMLElement;
-				if (elem.tagName === 'A' || elem.role === 'button') {
-					setOpenMenu(false);
-					return;
-				}
-				let parent = elem.parentElement;
-				const verifiedParentsCount = 3; // quantity of verified parents to avoid infinite loop
-				for (let i = 0; i < verifiedParentsCount; i++) {
-					if (parent?.tagName === 'A' || parent?.tagName === 'BUTTON') {
-						setOpenMenu(false);
-						break;
-					}
-					if (!parent?.parentElement) {
-						break;
-					}
-					parent = parent?.parentElement;
-				}
-			}}>
-			<div className={styles.header}>
-				<Container sx={{ height: '100%' }}>
-					<ToolBar
-						sx={{
-							height: '100%',
-							minHeight: { xs: 'unset', md: 'unset' },
-							justifyContent: 'space-between',
-						}}
-						disableGutters>
-						<Logo />
-						<IconButton
-							color="inherit"
-							aria-label="open drawer"
-							onClick={handleDrawerToggle}
-							sx={{ display: { xs: 'flex', md: 'none' } }}>
-							<CloseIcon />
-						</IconButton>
-					</ToolBar>
-				</Container>
-			</div>
-			<Box sx={{ borderBottom: '1px solid var(--border)' }}>
-				<List
-					sx={{
-						display: 'flex',
-						flexDirection: 'column',
-						paddingTop: 1,
-						paddingBottom: 1,
-					}}>
-					{routes.map(route => (
-						<MenuLink
-							key={route.path}
-							href={route.path}>
-							{route.text}
-						</MenuLink>
-					))}
-				</List>
-			</Box>
-			<Box sx={{ borderBottom: '1px solid var(--border)' }}>
-				<List
-					sx={{
-						display: 'flex',
-						flexDirection: 'column',
-						paddingTop: 1,
-						paddingBottom: 1,
-					}}>
-					<MenuLink href="/upload-file">Загрузить книгу</MenuLink>
-				</List>
-			</Box>
-			<Box>
-				<List
-					sx={{
-						display: 'flex',
-						flexDirection: 'column',
-						paddingTop: 1,
-						paddingBottom: 1,
-					}}>
-					{isAuth ? (
-						<>
-							<Box
-								sx={{
-									display: 'flex',
-									alignItems: 'center',
-									gap: 1,
-									paddingBottom: 1,
-									paddingLeft: { xs: 2, sm: 3 },
-									paddingRight: { xs: 2, sm: 3 },
-								}}>
-								<AccountCircle />
-								<Typography
-									sx={{
-										fontWeight: 500,
-										textOverflow: 'ellipsis',
-										overflow: 'hidden',
-										whiteSpace: 'nowrap',
-									}}
-									variant="subtitle1">
-									{profile.name}
-								</Typography>
-							</Box>
-							<MenuLink
-								onClick={() => {
-									onLogout();
-								}}>
-								Выйти
-							</MenuLink>
-						</>
-					) : (
-						<MenuLink href="/login?mode=login">Войти</MenuLink>
-					)}
-				</List>
-			</Box>
-		</div>
-	);
-
 	const [popupMenuEl, setPopupMenuEl] = useState<null | HTMLElement>(null);
 
 	const handlePopupMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -267,7 +152,118 @@ export default function Header() {
 						display: { xs: 'block', md: 'none' },
 						'& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
 					}}>
-					{drawer}
+					<div
+						onClick={(e: React.MouseEvent<HTMLDivElement>) => {
+							const elem = e.target as HTMLElement;
+							if (elem.tagName === 'A' || elem.role === 'button') {
+								setOpenMenu(false);
+								return;
+							}
+							let parent = elem.parentElement;
+							const verifiedParentsCount = 3; // quantity of verified parents to avoid infinite loop
+							for (let i = 0; i < verifiedParentsCount; i++) {
+								if (parent?.tagName === 'A' || parent?.tagName === 'BUTTON') {
+									setOpenMenu(false);
+									break;
+								}
+								if (!parent?.parentElement) {
+									break;
+								}
+								parent = parent?.parentElement;
+							}
+						}}>
+						<div className={styles.header}>
+							<Container sx={{ height: '100%' }}>
+								<ToolBar
+									sx={{
+										height: '100%',
+										minHeight: { xs: 'unset', md: 'unset' },
+										justifyContent: 'space-between',
+									}}
+									disableGutters>
+									<Logo />
+									<IconButton
+										color="inherit"
+										aria-label="open drawer"
+										onClick={handleDrawerToggle}
+										sx={{ display: { xs: 'flex', md: 'none' } }}>
+										<CloseIcon />
+									</IconButton>
+								</ToolBar>
+							</Container>
+						</div>
+						<Box sx={{ borderBottom: '1px solid var(--border)' }}>
+							<List
+								sx={{
+									display: 'flex',
+									flexDirection: 'column',
+									paddingTop: 1,
+									paddingBottom: 1,
+								}}>
+								{routes.map(route => (
+									<MenuLink
+										key={route.path}
+										href={route.path}>
+										{route.text}
+									</MenuLink>
+								))}
+							</List>
+						</Box>
+						<Box sx={{ borderBottom: '1px solid var(--border)' }}>
+							<List
+								sx={{
+									display: 'flex',
+									flexDirection: 'column',
+									paddingTop: 1,
+									paddingBottom: 1,
+								}}>
+								<MenuLink href="/upload-file">Загрузить книгу</MenuLink>
+							</List>
+						</Box>
+						<Box>
+							<List
+								sx={{
+									display: 'flex',
+									flexDirection: 'column',
+									paddingTop: 1,
+									paddingBottom: 1,
+								}}>
+								{isAuth ? (
+									<>
+										<Box
+											sx={{
+												display: 'flex',
+												alignItems: 'center',
+												gap: 1,
+												paddingBottom: 1,
+												paddingLeft: { xs: 2, sm: 3 },
+												paddingRight: { xs: 2, sm: 3 },
+											}}>
+											<AccountCircle />
+											<Typography
+												sx={{
+													fontWeight: 500,
+													textOverflow: 'ellipsis',
+													overflow: 'hidden',
+													whiteSpace: 'nowrap',
+												}}
+												variant="subtitle1">
+												{profile.name}
+											</Typography>
+										</Box>
+										<MenuLink
+											onClick={() => {
+												onLogout();
+											}}>
+											Выйти
+										</MenuLink>
+									</>
+								) : (
+									<MenuLink href="/login?mode=login">Войти</MenuLink>
+								)}
+							</List>
+						</Box>
+					</div>
 				</Drawer>
 			</nav>
 		</AppBar>

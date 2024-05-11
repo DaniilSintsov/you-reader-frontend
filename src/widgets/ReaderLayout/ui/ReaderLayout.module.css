@@ -1,0 +1,54 @@
+.pdfDocument {
+	display: flex;
+	justify-content: center;
+}
+
+.pdfPage {
+	background-color: transparent !important;
+}
+
+.outlineWrapper {
+	overflow: auto;
+	flex: 0 1 auto;
+}
+
+.outlineWrapper li {
+	list-style: none;
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+}
+
+.outlineWrapper li > a {
+	display: block;
+	padding: 0.1rem;
+	text-decoration: none;
+	color: var(--black);
+	transition: 0.3s;
+}
+
+@media (hover: none) {
+	.outlineWrapper li > a:active {
+		color: var(--blue);
+	}
+}
+
+@media (hover: hover) {
+	.outlineWrapper li > a:hover {
+		color: var(--blue);
+	}
+}
+
+.outlineWrapper ul {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+}
+
+.thumbnail {
+    flex: 1 1 auto;
+}
+
+.thumbnail * {
+	background-color: transparent !important;
+}

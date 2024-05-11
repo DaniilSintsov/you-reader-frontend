@@ -6,33 +6,40 @@ import { Alert, Box, Container, Snackbar, Typography } from '@mui/material';
 import { useProfile } from '../../lib/hooks/useStoreProfile';
 import Link from 'next/link';
 import { useAlert } from '../../lib/hooks/useAlert';
+import Loader from '../Loader/Loader';
 
 export default function ContainerCheckAuth({
 	children,
 	sx,
 }: PropsWithChildren<IContainerCheckAuthProps>) {
-	const { isAuth } = useProfile();
+	const { isAuth, isLoading } = useProfile();
 	const { alert, clearAlert } = useAlert();
 
 	return (
 		<>
-			<Container
-				sx={{ paddingTop: 4, paddingBottom: 4, ...sx }}
-				maxWidth="lg">
-				{isAuth ? children : <NonAuthContent />}
-			</Container>
-			<Snackbar
-				open={alert.open}
-				autoHideDuration={1000}
-				onClose={clearAlert}
-				anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
-				<Alert
-					variant="filled"
-					onClose={clearAlert}
-					severity={alert.severity}>
-					{alert.message}
-				</Alert>
-			</Snackbar>
+			{isLoading ? (
+				<Loader />
+			) : (
+				<>
+					<Container
+						sx={{ paddingTop: 4, paddingBottom: 4, ...sx }}
+						maxWidth="lg">
+						{isAuth ? children : <NonAuthContent />}
+					</Container>
+					<Snackbar
+						open={alert.open}
+						autoHideDuration={1000}
+						onClose={clearAlert}
+						anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
+						<Alert
+							variant="filled"
+							onClose={clearAlert}
+							severity={alert.severity}>
+							{alert.message}
+						</Alert>
+					</Snackbar>
+				</>
+			)}
 		</>
 	);
 }

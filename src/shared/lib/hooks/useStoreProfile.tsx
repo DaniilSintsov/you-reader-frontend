@@ -1,12 +1,14 @@
 'use client';
 
-import { PropsWithChildren, createContext, useContext, useEffect, useState } from 'react';
+import { PropsWithChildren, createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { IAuthResponse } from '../../models/authResponse.model';
 import { LocalStorageService } from '../services/localStorage.service';
 import AuthService from '../services/auth.service';
 import { ClientError } from 'graphql-request';
 
 interface IProfileContext {
+	isLoading: boolean;
+	setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 	isAuth: boolean;
 	setIsAuth: React.Dispatch<React.SetStateAction<boolean>>;
 	profile: IAuthResponse;
@@ -14,6 +16,8 @@ interface IProfileContext {
 }
 
 const ProfileContext = createContext<IProfileContext>({
+	isLoading: true,
+	setIsLoading: () => {},
 	isAuth: false,
 	setIsAuth: () => {},
 	profile: {} as IAuthResponse,
@@ -21,9 +25,10 @@ const ProfileContext = createContext<IProfileContext>({
 });
 
 export const ProfileProvider = ({ children }: PropsWithChildren) => {
+	const [isLoading, setIsLoading] = useState<boolean>(true);
 	const [isAuth, setIsAuth] = useState<boolean>(false);
 	const [profile, setProfile] = useState<IAuthResponse>({} as IAuthResponse);
-	const profileContextValue = { isAuth, setIsAuth, profile, setProfile };
+	const profileContextValue = { isLoading, setIsLoading, isAuth, setIsAuth, profile, setProfile };
 
 	return (
 		<ProfileContext.Provider value={profileContextValue}>{children}</ProfileContext.Provider>
@@ -31,7 +36,8 @@ export const ProfileProvider = ({ children }: PropsWithChildren) => {
 };
 
 export const useProfile = () => {
-	const { isAuth, setIsAuth, profile, setProfile } = useContext(ProfileContext);
+	const { isLoading, setIsLoading, isAuth, setIsAuth, profile, setProfile } =
+		useContext(ProfileContext);
 
 	useEffect(() => {
 		async function checkAuth() {
@@ -52,12 +58,19 @@ export const useProfile = () => {
 					} else {
 						console.error(error);
 					}
+				} finally {
+					setIsLoading(false);
 				}
+			} else {
+				setIsLoading(false);
 			}
 		}
 
 		checkAuth();
 	}, []);
 
-	return { isAuth, setIsAuth, profile, setProfile };
+	return useMemo(
+		() => ({ isLoading, setIsLoading, isAuth, setIsAuth, profile, setProfile }),
+		[isLoading, isAuth, profile],
+	);
 };

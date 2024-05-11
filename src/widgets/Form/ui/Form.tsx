@@ -49,8 +49,15 @@ export default function Form({ mode }: IFormProps) {
 
 	const [yupObjState, setYupObjState] = useState(yupObj);
 
+	const [isFirstRun, setIsFirstRun] = useState(true);
+
 	useEffect(() => {
-		reset();
+		if (isFirstRun) {
+			setIsFirstRun(false);
+		}
+
+		if (!isFirstRun) reset();
+
 		if (mode === 'register') {
 			setYupObjState(
 				Object.assign(yupObj, {
@@ -60,7 +67,7 @@ export default function Form({ mode }: IFormProps) {
 		} else {
 			setYupObjState(yupObj);
 		}
-	}, [mode]);
+	}, [mode, isFirstRun]);
 
 	const {
 		control,

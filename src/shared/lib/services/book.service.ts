@@ -130,4 +130,47 @@ export class BookService {
 				throw error;
 			});
 	}
+
+	static async getBook(bookId: string): Promise<IBook> {
+		return await authenticatedRequest({
+			query: gql`
+				query getBook($bookId: String!) {
+					getBook(bookId: $bookId) {
+						_id
+						title
+						author
+						file
+						pagesCount
+						currentPage
+					}
+				}
+			`,
+			variables: { bookId },
+		})
+			.then((res: unknown) => {
+				const data = (res as { getBook: IBook }).getBook;
+				if (!data) throw new Error(`Cannot find book with id: ${bookId}`);
+				return data;
+			})
+			.catch(error => {
+				throw error;
+			});
+	}
+
+	static async setCurrentPage(bookId: string, currentPage: number): Promise<IBook> {
+		return await authenticatedRequest({
+			query: gql`
+				mutation setCurrentPage($bookId: String!, $pageNumber: Int!) {
+					setCurrentPage(bookId: $bookId, pageNumber: $pageNumber) {
+						currentPage
+					}
+				}
+			`,
+			variables: { bookId, pageNumber: currentPage },
+		})
+			.then((res: unknown) => (res as { setCurrentPage: IBook }).setCurrentPage)
+			.catch(error => {
+				throw error;
+			});
+	}
 }
