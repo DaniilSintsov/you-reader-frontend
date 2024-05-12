@@ -37,7 +37,7 @@ export default function Form({ mode }: IFormProps) {
 		email: yup
 			.string()
 			.trim()
-			.email('Вы указали некорректный Email')
+			.matches(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, 'Вы указали некорректный Email') // Check email regex
 			.required('Это обязательное поле'),
 		password: yup
 			.string()

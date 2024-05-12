@@ -7,4 +7,5 @@ export interface IBook {
 	isFavorite?: boolean;
 	pagesCount?: number;
 	currentPage?: number;
+	heightToWidthRatio?: number;
 }

@@ -90,7 +90,7 @@ export default function BookCard({
 				<CardMedia
 					sx={{
 						paddingTop: { xs: '60%', sm: '150%' },
-						backgroundSize: { xs: 'contain', sm: 'cover' },
+						backgroundSize: 'contain',
 					}}
 					image={book.cover}
 				/>

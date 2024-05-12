@@ -6,7 +6,7 @@ import 'react-pdf/dist/Page/AnnotationLayer.css';
 import 'react-pdf/dist/Page/TextLayer.css';
 import styles from './ReaderLayout.module.css';
 import { pdfjs } from 'react-pdf';
-import { CircularProgress, Grid, Typography } from '@mui/material';
+import { Button, CircularProgress, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import Loader from '@/src/shared/ui/Loader/Loader';
 import { useDeviceSize } from '@/src/shared/lib/hooks/useDeviceSize';
@@ -14,6 +14,7 @@ import ReaderModalLayout from '@/src/shared/ui/ReaderModalLayout/ReaderModalLayo
 import PageSwitcher from '../../PageSwitcher';
 import useFetcher from '@/src/shared/lib/hooks/useFetcher';
 import { BookService } from '@/src/shared/lib/services/book.service';
+import Link from 'next/link';
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
 
@@ -62,8 +63,10 @@ export default function ReaderLayout({ book }: { book: IBook }) {
 					}}>
 					<Document
 						loading={<Loader />}
+						error={<ErrorWhileOpeningFile />}
 						className={styles.pdfDocument}
 						file={file}
+						onLoadError={console.error}
 						onLoadSuccess={pdf => setPdf(pdf)}
 						onItemClick={({ pageNumber }) => setPageNumber(pageNumber)}>
 						<Page
@@ -137,6 +140,7 @@ export default function ReaderLayout({ book }: { book: IBook }) {
 									gridColumn={{ xs: 'span 12', sm: 'span 6' }}>
 									<Box
 										sx={{
+											overflow: 'hidden',
 											width: '100%',
 											alignItems: 'center',
 											display: 'flex',
@@ -147,6 +151,11 @@ export default function ReaderLayout({ book }: { book: IBook }) {
 										<Box
 											sx={{
 												overflow: 'hidden',
+												display: 'flex',
+												alignItems: 'center',
+												height: book?.heightToWidthRatio
+													? Math.floor(200 * book.heightToWidthRatio)
+													: 200,
 											}}>
 											<Thumbnail
 												width={200}
@@ -201,3 +210,30 @@ export default function ReaderLayout({ book }: { book: IBook }) {
 		</>
 	);
 }
+
+const ErrorWhileOpeningFile = () => {
+	return (
+		<Box
+			sx={{
+				padding: 2,
+				display: 'flex',
+				justifyContent: 'center',
+				alignItems: 'center',
+				flexDirection: 'column',
+				gap: 2,
+			}}>
+			<Typography
+				variant="h5"
+				component="h1"
+				sx={{
+					textAlign: 'center',
+					fontWeight: 500,
+				}}>
+				Произошла ошибка при открытии файла
+			</Typography>
+			<Link href="/">
+				<Button component="div">Вернуться к книгам</Button>
+			</Link>
+		</Box>
+	);
+};

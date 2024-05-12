@@ -142,6 +142,7 @@ export class BookService {
 						file
 						pagesCount
 						currentPage
+						heightToWidthRatio
 					}
 				}
 			`,
