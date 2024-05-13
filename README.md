@@ -1,10 +1,10 @@
  # YouReader - frontend
 
-<div style="text-align: center;">
+<p align="center">
     <img style="width: 100px;" src="screenshots/logo.png" alt="YouReader logo" />
-</div>
+</p>
 
-Frontend of YouReader application for reading pdf books with synchronization. Backend of YouReader - follow the [link](https://github.com/DaniilSintsov/you-reader-backend)
+Frontend of YouReader application for reading pdf books with synchronization. If you want to see the backend of YouReader - follow the [link](https://github.com/DaniilSintsov/you-reader-backend)
 
 ## Screenshots
 
